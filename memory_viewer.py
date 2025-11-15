@@ -29,10 +29,13 @@ from PyQt5.QtWidgets import QDialog, QListWidget, QDialogButtonBox
 from PyQt5.QtWidgets import QCheckBox
 from PyQt5.QtGui import QIcon
 
+# --- Windows memory protection constants ---
 
 PAGE_READWRITE = 0x04
 MEM_COMMIT = 0x00001000
 MEM_RESERVE = 0x00002000
+
+# --- Setup WinAPI: VirtualProtectEx for temporarily changing page protection ---
 
 kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
 VirtualProtectEx = kernel32.VirtualProtectEx
@@ -49,36 +52,57 @@ VirtualProtectEx.restype = wintypes.BOOL
 
 
 class HexHighlighter(QSyntaxHighlighter):
+    """
+    Syntax highlighter for the hex editor text area.
+
+    Responsibilities:
+    - Visually marks invalid hex tokens (wrong length / non-hex chars) with a wavy underline.
+    - Highlights modified bytes (indices present in self.modified_indices) in a different color.
+    - Used only for display / visual feedback. It does not change underlying data.
+    """
+
     def __init__(self, parent, modified_indices_ref):
+        """
+        :param parent: QTextDocument associated with QTextEdit.
+        :param modified_indices_ref: A reference to a shared set of indices of modified bytes.
+        """
         super().__init__(parent)
         self.modified_indices = modified_indices_ref
         
-        # Precompiled regex for validation
+         # Regex for validating a single hex token (e.g. "0A" or "[0A]")
         self.hex_pattern = re.compile(r'^\[?[0-9A-Fa-f]{2}\]?$')  # Anchored with ^ and $
         
         # Formatting setups
         self.modified_format = QTextCharFormat()
         self.modified_format.setForeground(QColor('#FF5555'))
-        
+
+        # Format for invalid tokens
         self.invalid_format = QTextCharFormat()
         self.invalid_format.setUnderlineColor(QColor('#FFD700'))
         self.invalid_format.setUnderlineStyle(QTextCharFormat.WaveUnderline)
 
     def highlightBlock(self, text):
+        """
+        Called automatically by Qt for each text block.
+
+        - Splits the line into space-separated tokens.
+        - Validates each token as hex.
+        - Applies formatting based on validity and modification status.
+        """
         parts = text.split()
         pos = 0
         
         for idx, part in enumerate(parts):
-            # Use precompiled pattern for validation
+            # Validate token against the hex pattern
             is_valid = self.hex_pattern.fullmatch(part) is not None
             
-            # Find position in text
+            # Find the position of this token in the block text
             start = text.find(part, pos)
             if start == -1:
                 continue
             end = start + len(part)
             
-            # Apply formatting
+            # Apply formatting based on validation and modification
             if not is_valid:
                 self.setFormat(start, end - start, self.invalid_format)
             elif idx in self.modified_indices:
@@ -89,16 +113,26 @@ class HexHighlighter(QSyntaxHighlighter):
 
 
 class PatternSearchDialog(QDialog):
+    """
+    Dialog for searching a hex pattern in the target process memory.
+
+    Features:
+    - Input pattern with wildcards (e.g. "A1 ?? 00 FF ??").
+    - Scans process memory (main module or fallback range).
+    - Shows list of matching addresses with module names.
+    - Double-click or OK to select an address.
+    """
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Pattern Search")
         self.setFixedSize(600, 500)
+        # Inherit dark theme / styles from parent
         self.setStyleSheet(parent.styleSheet())
         
         layout = QVBoxLayout()
         layout.setContentsMargins(20, 15, 20, 10)  # (left, top, right, bottom)
         
-        # Pattern input
+        # --- Pattern input row ---
         pattern_layout = QHBoxLayout()
         pattern_layout.addWidget(QLabel("Pattern:"))
         self.pattern_input = QLineEdit()
@@ -121,16 +155,24 @@ class PatternSearchDialog(QDialog):
         self.results_list.itemDoubleClicked.connect(self.accept)
         layout.addWidget(self.results_list)
         
-        # Buttons
+        # --- Dialog buttons (OK / Cancel) ---
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         button_box.accepted.connect(self.accept)
         button_box.rejected.connect(self.reject)
         layout.addWidget(button_box)
         
         self.setLayout(layout)
-        self.results = []
+        self.results = []          # Stores found addresses in parallel with list items
     
     def search(self):
+        """
+        Perform pattern search in the target process memory.
+
+        - Ensures process handle exists (tries to open if needed).
+        - Parses pattern with optional wildcards (??).
+        - Scans memory in chunks to avoid freezing the UI.
+        - Stores up to 1000 matches to keep things responsive.
+        """
         # Get the parent viewer
         viewer = self.parent()
         
@@ -254,6 +296,17 @@ class PatternSearchDialog(QDialog):
 
 
 class MemoryByteViewerDark(QWidget):
+    """
+    Main GUI class for Memory Byte Viewer.
+
+    Features:
+    - Attach to a target process by name.
+    - Read bytes around a specific memory address.
+    - Highlight center byte, allow editing in hex.
+    - Track modified bytes and show them visually.
+    - Commit changes to target process using safe memory protection changes.
+    - Auto-refresh view and pattern search dialog.
+    """
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Memory Byte Viewer")
