@@ -24,7 +24,33 @@ Perfect for:
 - 🎨 Modern **dark UI** optimized for readability  
 - 🚫 Full error handling (safe even for beginners)
 
+
+## 🖼 Screenshots  
+
+### Main Window  
+<p align="center">
+  <img src="assets/screenshot_main.png" width="75%">
+</p>
+
+### Pattern Scanner  
+<p align="center">
+  <img src="assets/screenshot_pattern.png" width="75%">
+</p>
+
+### Memory Editor  
+<p align="center">
+  <img src="assets/screenshot_edit.png" width="75%">
+</p>
+
 ---
+
+## 🎥 Demo (GIF)  
+> Add a GIF to `assets/demo.gif`
+
+<p align="center">
+  <img src="assets/demo.gif" width="80%">
+</p>
+
 
 ## 🎯 Use Cases  
 
@@ -76,6 +102,11 @@ MemoryByteViewer/
 ├── CONTRIBUTING.md
 ├── LICENSE
 ├── requirements.txt
+├── assets/
+│   ├── screenshot_main.png
+│   ├── screenshot_pattern.png
+│   ├── screenshot_edit.png
+│   └── demo.gif
 └── docs/
     └── MemoryByteViewer_Documentation.pdf
 ```
@@ -88,16 +119,13 @@ A complete PDF guide is available here:
 docs/MemoryByteViewer_Documentation.pdf
 ```
 
----
-
 ## 🛡 Legal Notice  
 This software is for **education, debugging, and security research only**.  
 Do **NOT** use it on online games or commercial applications.
 
----
 
 ## 🧑‍💻 Author  
 **Arman**  
 Computer Engineer • Reverse Engineering • Systems Research  
 
-If you enjoy this project, please consider giving it a **⭐ Star** on GitHub!  
+If you enjoy this project, please consider giving it a **⭐ Star** on GitHub! 🌟  
