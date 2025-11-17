@@ -45,7 +45,7 @@ Perfect for:
 ---
 
 ## 🎥 Demo (GIF)  
-> Add a GIF to `assets/demo.gif`
+> `assets/demo.gif`
 
 <p align="center">
   <img src="assets/demo.gif" width="80%">
