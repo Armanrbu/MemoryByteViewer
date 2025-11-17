@@ -13,7 +13,6 @@ Perfect for:
 - Malware Analysis  
 - OS & Memory Education  
 
----
 
 ## ✨ Features  
 - 🔍 **Hex Memory Viewer** with syntax highlighting  
