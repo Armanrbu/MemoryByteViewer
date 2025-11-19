@@ -297,7 +297,6 @@ class PatternSearchDialog(QDialog):
 class MemoryByteViewerDark(QWidget):
     """
     Main GUI class for Memory Byte Viewer.
-
     Features:
     - Attach to a target process by name.
     - Read bytes around a specific memory address.
