@@ -1,4 +1,3 @@
-Python 3.10+
 pymem
 psutil
 PyQt5
