@@ -54,7 +54,6 @@ VirtualProtectEx.restype = wintypes.BOOL
 class HexHighlighter(QSyntaxHighlighter):
     """
     Syntax highlighter for the hex editor text area.
-
     Responsibilities:
     - Visually marks invalid hex tokens (wrong length / non-hex chars) with a wavy underline.
     - Highlights modified bytes (indices present in self.modified_indices) in a different color.
