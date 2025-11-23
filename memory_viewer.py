@@ -49,8 +49,6 @@ VirtualProtectEx.argtypes = [
 VirtualProtectEx.restype = wintypes.BOOL
 
 
-
-
 class HexHighlighter(QSyntaxHighlighter):
     """
     Syntax highlighter for the hex editor text area.
