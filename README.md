@@ -112,6 +112,9 @@ MemoryByteViewer/
 
 ---
 
+## Credits
+UI Design reference : ``Walker - @walkerid600010``
+
 ## 📘 Full Documentation  
 A complete PDF guide is available here:  
 ```
