@@ -1,7 +1,6 @@
 # 🚀 Memory Byte Viewer – PyQt5 + PyMem  
 A modern, lightweight, Cheat-Engine–style memory viewer & AOB scanner.
 
-
 ## 🧠 Overview  
 **Memory Byte Viewer** is an advanced GUI tool for inspecting, editing, and scanning the memory of Windows processes.  
 Built with **Python, PyQt5, PyMem, and WinAPI**, it provides a clean, safe, and developer-friendly alternative to heavy native memory editors.
