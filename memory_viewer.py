@@ -785,7 +785,6 @@ class MemoryByteViewerDark(QWidget):
         self.ignore_text_changes = True  # 👈 Start guarding
 
         try:
-            # Save UI state without modifying text
             cursor = self.memory_view.textCursor()
             scroll_pos = self.memory_view.verticalScrollBar().value()
 
