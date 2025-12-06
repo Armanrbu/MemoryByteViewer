@@ -43,7 +43,6 @@ Go to your fork on GitHub → click **Compare & Pull Request** → submit it.
 
 I will review it as soon as possible!
 
----
 
 ## 📌 Coding Guidelines  
 
@@ -53,7 +52,6 @@ I will review it as soon as possible!
 - Keep UI code and logic separate when feasible  
 - Provide meaningful commit messages  
 
----
 
 ## 🧪 Recommended Enhancements to Contribute  
 Want to help but not sure where to start?  
@@ -80,7 +78,6 @@ Here are ideas:
 - Add developer API docs  
 - Improve examples  
 
----
 
 ## 🐞 Reporting Issues  
 
@@ -92,7 +89,6 @@ If you find a bug, please create an **Issue** with:
 - Screenshots or error logs (if possible)  
 - System details (Windows version, Python version, etc.)  
 
----
 
 ## ❤️ Thank You  
 
