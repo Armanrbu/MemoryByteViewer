@@ -12,7 +12,6 @@ from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QHBoxLayout
 from PyQt5.QtWidgets import QInputDialog
 import psutil
-import sys
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QLineEdit, QPushButton,
     QTextEdit, QVBoxLayout, QHBoxLayout, QGridLayout, QInputDialog, QMessageBox
